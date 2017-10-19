@@ -17,6 +17,19 @@ RSpec.describe 'Users API', type: :request do
         user_response = JSON.parse(response.body)
         expect(user_response["id"]).to eq(user_id)
       end
+
+      it "return status 200" do
+        expect(response).to have_http_status(200)
+      end
+    end
+
+    context "When the user doesn't exists" do
+      # Overrid user id to simulate event of searching a invalid user
+      let(:user_id) { 41232341 }
+      
+      it "returns status 404" do
+        expect(response).to have_http_status(404)        
+      end
     end
 
   end
