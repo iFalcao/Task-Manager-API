@@ -1,24 +1,14 @@
-# README
+# Task Manager API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a Ruby on Rails API only application that intends to power a Web Application build with Angular 4 and Mobile Application build with NativeScript
 
-Things you may want to cover:
+## Ruby and Rails Versions
 
-* Ruby version
+Running with Ruby 2.4.1 and Rails 5.1.3 
 
-* System dependencies
+## Running Tests
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Spring will make tests run much faster
+```shell
+bundle exec spring rspec
+```
