@@ -79,7 +79,7 @@ RSpec.describe 'Users API', type: :request do
       end
       
       it 'Returns status 204' do
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(204)
       end
     end
 
