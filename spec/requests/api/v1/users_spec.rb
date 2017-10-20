@@ -66,4 +66,30 @@ RSpec.describe 'Users API', type: :request do
       end
     end
   end
+
+  describe 'DELETE /users/:id' do
+    before do
+      headers = { 'Accept' => 'application/vnd.taskmanager.v1' }
+      delete "/users/#{user_id}", params: {}, headers: headers
+    end
+
+    context 'When the user exists' do
+      it 'Deleted the user' do
+        expect( User.find_by(id: user_id) ).to(be_nil)
+      end
+      
+      it 'Returns status 204' do
+        expect(response).to have_http_status(200)
+      end
+    end
+
+    context 'When the user does not exists' do
+      let(:user_id) { 41343241 }
+
+      it 'Returns status 404' do
+        expect(response).to have_http_status(404)
+      end
+    end
+  end
+
 end
