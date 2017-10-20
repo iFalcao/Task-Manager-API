@@ -33,4 +33,28 @@ RSpec.describe 'Users API', type: :request do
     end
 
   end
+
+  describe 'POST /users' do
+    before do
+      headers = { 'Accept' => 'application/vnd.taskmanager.v1' }
+      post '/users', params: { user: user_params }, headers: headers
+    end
+
+    context 'When the params are valid' do
+      let(:user_params) { attributes_for(:user) }
+
+      it 'returns status 201' do
+        expect(response).to have_http_status(201)
+      end
+
+      it 'returns correct json for the created user' do
+        user_response = JSON.parse(response.body)
+        expect(user_response['email']).to eq(user_params[:email])
+      end
+    end
+
+    context 'When the params are ivvalid' do
+      
+    end
+  end
 end
