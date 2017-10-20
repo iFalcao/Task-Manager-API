@@ -20,6 +20,16 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def destroy
+    begin
+      user = User.find(params[:id])
+      user.destroy
+      head 204
+    rescue => exception
+      head 404
+    end
+  end
+
   protected 
 
     def params_user
