@@ -7,7 +7,6 @@ RSpec.describe User, type: :model do
   it { is_expected.to validate_presence_of(:email) }
 
   # Working with Shoulda Matchers methods to create less verbose tests
-  it { expect(user).to validate_presence_of(:name) }  
   it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
   it { is_expected.to allow_value('user@test.com').for(:email) }
   it { is_expected.to validate_confirmation_of(:password) }
