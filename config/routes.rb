@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json }, constraints: { subdomain: 'api' }, path: '/' do
     # Extra configuration about the API should be passed on the headers instead of URL
     namespace :v1, path: '/', constraints: ApiVersionConstraint.new( version: 1, default: true ) do
-      resources :users, only: [:show, :create, :destroy]
+      resources :users, only: [:show, :create, :update, :destroy]
     end
   end
   
