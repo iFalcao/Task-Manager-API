@@ -2,7 +2,7 @@ require 'api_version_constraint'
 
 Rails.application.routes.draw do
 
-  # devise_for :users
+  devise_for :users, only: [:sessions], controllers: { sessions: 'api/v1/sessions' }
   # Makes the api accessible through the domain -> api.site.com/resource-name
   
   namespace :api, defaults: { format: :json }, constraints: { subdomain: 'api' }, path: '/' do

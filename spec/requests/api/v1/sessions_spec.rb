@@ -24,11 +24,22 @@ RSpec.describe 'Sessions API', type: :request do
       end
 
       it 'returns json data with auth_token' do
+        user.reload
         expect(json_body[:auth_token]).to eq(user.auth_token)
       end
     end
 
-    
+    context 'when the credentials are not correct' do
+      let(:credentials) { { email: user.email, password: 'invalid_password' } }
+
+      it 'returns status 401' do
+        expect(response).to have_http_status(401)
+      end
+
+      it 'returns json with errors' do
+        expect(json_body).to have_key(:errors)
+      end
+    end
   end
 
 end
