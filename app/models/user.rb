@@ -9,6 +9,6 @@ class User < ApplicationRecord
   def info
     # You only need to use 'self.' before the field 
     # if you want to modify its value
-    "#{email} - #{created_at}"
+    "#{email} - #{created_at} - Token: #{Devise.friendly_token}"
   end
 end
