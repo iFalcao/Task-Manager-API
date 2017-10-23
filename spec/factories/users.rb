@@ -1,5 +1,6 @@
 FactoryGirl.define do
   factory :user do
+    auth_token Faker::StarWars.character
     email { Faker::Internet.email }
     password '123456'
     password_confirmation '123456'
