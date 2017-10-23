@@ -5,4 +5,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   validates_uniqueness_of :auth_token
+
+  def info
+    # You only need to use 'self.' before the field 
+    # if you want to modify its value
+    "#{email} - #{created_at}"
+  end
 end
