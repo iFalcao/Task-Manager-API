@@ -21,6 +21,25 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '#generate_authentication_token!' do
+    it 'returns an unique auth Token' do
+      allow(Devise).to receive(:friendly_token).and_return('GenToken123')
+      user.generate_authentication_token!
+
+      expect(user.auth_token).to eq('GenToken123')
+    end
+
+    it 'generates another token if the generated one is already taken' do
+      # Bellow, the Devise.friendly_token will return '123Token' in the first and second call
+      # and will return 'in_case_the_first_fails' in third call
+      allow(Devise).to receive(:friendly_token).and_return('123Token', '123Token', 'in_case_the_first_fails')
+      some_user = create :user # '123Token'
+      user.generate_authentication_token! # '123Token'
+
+      expect(user.auth_token).not_to eq(some_user.auth_token)
+    end
+  end
+
 
 
 =begin
