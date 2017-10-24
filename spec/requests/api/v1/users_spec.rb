@@ -6,7 +6,8 @@ RSpec.describe 'Users API', type: :request do
   let(:headers) do
     {
       'Accept' => 'application/vnd.taskmanager.v1',
-      'Content-Type' => Mime[:json].to_s
+      'Content-Type' => Mime[:json].to_s,
+      'Authorization' => user.auth_token
     }
   end
 
@@ -97,15 +98,6 @@ RSpec.describe 'Users API', type: :request do
         expect(json_body).to have_key(:errors)
       end
     end
-
-    context 'When the user does not exist' do
-      let(:user_id) { 41312321 }
-      let(:user_params) { attributes_for(:user, email:'invalid_email.com' ) }
-
-      it 'return status 404' do
-        expect(response).to have_http_status(404)
-      end
-    end
   end
 
   describe 'DELETE /users/:id' do
@@ -120,14 +112,6 @@ RSpec.describe 'Users API', type: :request do
       
       it 'Returns status 204' do
         expect(response).to have_http_status(204)
-      end
-    end
-
-    context 'When the user does not exists' do
-      let(:user_id) { 41343241 }
-
-      it 'Returns status 404' do
-        expect(response).to have_http_status(404)
       end
     end
   end
