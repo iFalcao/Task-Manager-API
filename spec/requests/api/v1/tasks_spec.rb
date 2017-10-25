@@ -2,9 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Tasks API', type: :request do
   before { host! 'api.taskmanager.dev' }
-  let!(:user) { create(:user) }
-  let!(:task) { create(:task) }
-  
+  let!(:user) { create(:user) }  
   let(:headers) do
     {
       'Accept' => 'application/vnd.taskmanager.v1',
@@ -29,10 +27,11 @@ RSpec.describe 'Tasks API', type: :request do
   end
 
 
-=begin
   describe 'GET /tasks/:id' do
+    let(:task) { create(:task) }
+    let(:task_id) { task.id }
     before do
-      get "/tasks/#{task.id}", params: {}, headers: headers
+      get "/tasks/#{task_id}", params: {}, headers: headers
     end
 
     context 'when the task exists' do
@@ -41,13 +40,17 @@ RSpec.describe 'Tasks API', type: :request do
       end
 
       it 'return json data with the task' do
-        expect(json_body[:id]).to eq(task.id)
+        expect(json_body[:title]).to eq(task.title)
       end
     end
 
     context 'when the task does not exist' do
-      
+      let(:task_id) { 435453453 }
+
+      it 'return status 404' do
+        expect(response).to have_http_status(404)
+      end
     end
   end
-=end
+
 end
