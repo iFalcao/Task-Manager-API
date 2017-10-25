@@ -5,6 +5,7 @@ RSpec.describe User, type: :model do
 
   # If the test doesn't need a build object, you can use:
   it { is_expected.to validate_presence_of(:email) }
+  it { is_expected.to have_many(:tasks).dependent(:destroy) }
 
   # Working with Shoulda Matchers methods to create less verbose tests
   it { is_expected.to validate_uniqueness_of(:email).case_insensitive }

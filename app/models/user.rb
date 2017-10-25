@@ -5,7 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   # Relations
-  has_many :tasks
+  has_many :tasks, dependent: :destroy
 
   validates_uniqueness_of :auth_token
   before_create :generate_authentication_token!
