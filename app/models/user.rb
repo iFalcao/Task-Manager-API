@@ -4,6 +4,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  # Relations
+  has_many :tasks
+
   validates_uniqueness_of :auth_token
   before_create :generate_authentication_token!
 
