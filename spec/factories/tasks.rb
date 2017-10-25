@@ -1,9 +1,9 @@
 FactoryGirl.define do
   factory :task do
-    title "MyString"
-    description "MyText"
+    title { Faker::StarWars.character }
+    description { Faker::Lorem.paragraph }
     done false
-    deadline "2017-10-24 21:30:00"
-    user nil
+    deadline { Faker::Date.forward }
+    user
   end
 end
