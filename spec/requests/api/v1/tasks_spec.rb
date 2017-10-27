@@ -26,7 +26,7 @@ RSpec.describe 'Tasks API', type: :request do
     end
   end
 
-
+  
   describe 'GET /tasks/:id' do
     let(:task) { create(:task, user_id: user.id) }
 
@@ -91,6 +91,50 @@ RSpec.describe 'Tasks API', type: :request do
 
       it 'return json with title error' do
         expect(json_body[:errors]).to have_key(:title)
+      end
+    end
+  end
+
+  describe 'PUT /tasks/:id' do
+    let(:task) { create(:task, user_id: user.id) }
+
+    before do
+      put "/tasks/#{task.id}", params: { task: task_params }.to_json, headers: headers
+    end
+
+    context 'when the params are valid' do
+      let(:task_params) do
+        { title: 'New title'}
+      end
+
+      it 'return status 200' do
+        expect(response).to have_http_status(200)
+      end
+
+      it 'return the updated object' do
+        expect(json_body[:title]).to eq(task_params[:title])
+      end
+
+      it 'update the task in the database' do
+        expect( Task.find_by title: task_params[:title] ).not_to be_nil
+      end
+    end
+
+    context 'when the params are invalid' do
+      let(:task_params) do
+        { title: ''}
+      end
+
+      it 'return status 422' do
+        expect(response).to have_http_status(422)
+      end
+
+      it 'return json with error for title' do
+        expect(json_body[:errors]).to have_key(:title)
+      end
+
+      it 'update the task in the database' do
+        expect( Task.find_by title: task_params[:title] ).to be_nil
       end
     end
   end
