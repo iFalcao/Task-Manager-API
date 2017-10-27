@@ -108,6 +108,7 @@ RSpec.describe 'Users API', type: :request do
     context 'When the user exists' do
       it 'Deleted the user' do
         expect( User.find_by(id: user_id) ).to(be_nil)
+        expect { User.find user_id }.to raise_error(ActiveRecord::RecordNotFound)
       end
       
       it 'Returns status 204' do
