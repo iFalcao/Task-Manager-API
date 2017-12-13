@@ -40,7 +40,7 @@ RSpec.configure do |config|
   end
 
   # Factory Girls configuration
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
   config.include RequestSpecHelper
     
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures

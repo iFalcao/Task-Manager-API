@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :user do
     auth_token Faker::StarWars.character
     email { Faker::Internet.email }

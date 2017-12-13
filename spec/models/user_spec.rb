@@ -44,7 +44,7 @@ RSpec.describe User, type: :model do
 
 
 =begin
-  subject { FactoryGirl.build :user }
+  subject { FactoryBot.build :user }
   it { expect(subject).to respond_to :email }
   
   context 'when user name is blank' do

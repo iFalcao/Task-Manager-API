@@ -30,7 +30,7 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # RSpec for Rails-3+
   gem 'rspec-rails', '~> 3.6'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   # A library for generating fake data such as names, addresses, and phone numbers.
   gem 'faker'
 end
@@ -55,3 +55,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'devise'
 gem 'active_model_serializers', '~> 0.10.0'
+gem 'mask_man', '~> 0.2.0'
