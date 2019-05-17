@@ -14,7 +14,7 @@ gem 'mysql2', '>= 0.3.18', '< 0.5'
 gem 'puma', '~> 3.7'
 # A partir dessa versão houve uma correção de uma vulnerabilidade crítica
 gem 'devise', ">= 4.6.0"
-
+gem "ffi", ">= 1.9.24"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
