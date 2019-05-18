@@ -8,7 +8,7 @@ RSpec.describe User, type: :model do
   it { is_expected.to have_many(:tasks).dependent(:destroy) }
 
   # Working with Shoulda Matchers methods to create less verbose tests
-  it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
+  it { is_expected.to validate_uniqueness_of(:email).case_insensitive.scoped_to(:provider) }
   it { is_expected.to allow_value('user@test.com').for(:email) }
   it { is_expected.to validate_confirmation_of(:password) }
   it { is_expected.to validate_uniqueness_of(:auth_token) }

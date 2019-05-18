@@ -1,7 +1,6 @@
 require 'api_version_constraint'
 
 Rails.application.routes.draw do
-
   devise_for :users, only: [:sessions], controllers: { sessions: 'api/v1/sessions' }
   # Makes the api accessible through the domain -> api.site.com/resource-name
   
@@ -18,6 +17,7 @@ Rails.application.routes.draw do
       resources :users, only: [:show, :create, :update, :destroy]
       resources :sessions, only: [:create, :destroy]
       resources :tasks, only: [:index, :show, :create, :update, :destroy]
+      mount_devise_token_auth_for 'User', at: 'auth'
     end
   end
   
