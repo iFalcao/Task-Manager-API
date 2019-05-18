@@ -19,6 +19,7 @@ gem "activejob", ">= 5.1.6.1"
 gem "actionview", ">= 5.1.6.2"
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'mask_man', '~> 0.2.0'
+gem 'ransack'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
