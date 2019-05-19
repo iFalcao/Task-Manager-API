@@ -6,7 +6,7 @@ class User < ApplicationRecord
   
   include DeviseTokenAuth::Concerns::User
 
-  # Relations
+  # Associations
   has_many :tasks, dependent: :destroy
 
   validates_uniqueness_of :auth_token

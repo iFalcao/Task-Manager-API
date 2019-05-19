@@ -2,26 +2,33 @@ require 'rails_helper'
 
 RSpec.describe 'Users API', type: :request do
   let!(:user) { create(:user) }
-  let(:user_id) { user.id }
+  let(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept' => 'application/vnd.taskmanager.v2',
       'Content-Type' => Mime[:json].to_s,
-      'Authorization' => user.auth_token
+      'Authorization' => user.auth_token,
+      'access-token' => auth_data['access-token'],
+      'uid' => auth_data['uid'],
+      'client' => auth_data['client']
     }
   end
 
   # Fix API subdomain
   before { host! 'api.taskmanager.dev' }
 
-  describe 'GET /users/:id' do
+  describe 'GET /auth/validate_token' do
     before do 
-      get "/users/#{user_id}", params: {}, headers: headers
+      get "/auth/validate_token", params: {}, headers: headers
     end
 
-    context 'When the user exists' do
-      it 'returns the user' do
-        expect(json_body[:data][:id].to_i).to eq(user_id)
+    context 'When the request headers are valid' do
+      before do 
+        get "/auth/validate_token", params: {}, headers: headers
+      end
+
+      it 'returns the user id' do
+        expect(json_body[:data][:id].to_i).to eq(user.id)
       end
 
       it 'return status 200' do
@@ -29,31 +36,33 @@ RSpec.describe 'Users API', type: :request do
       end
     end
 
-    context 'When the user does not exist' do
-      # Overrid user id to simulate event of searching a invalid user
-      let(:user_id) { 41232341 }
+    context 'When the request headers are invalid' do
+      before do 
+        headers['access-token'] = 'invalid token'
+        get '/auth/validate_token', params: {}, headers: headers
+      end
       
-      it 'returns status 404' do
-        expect(response).to have_http_status(404)        
+      it 'returns status 401' do
+        expect(response).to have_http_status(401) 
       end
     end
 
   end
 
-  describe 'POST /users' do
+  describe 'POST /auth' do
     before do
-      post '/users', params: { user: user_params }.to_json, headers: headers
+      post '/auth', params: user_params.to_json, headers: headers
     end
 
     context 'When the params are valid' do
       let(:user_params) { attributes_for(:user) }
 
-      it 'returns status 201' do
-        expect(response).to have_http_status(201)
+      it 'returns status 200' do
+        expect(response).to have_http_status(200)
       end
 
       it 'returns correct json for the created user' do
-        expect(json_body[:data][:attributes][:email]).to eq(user_params[:email])
+        expect(json_body[:data][:email]).to eq(user_params[:email])
       end
     end
 
@@ -70,9 +79,9 @@ RSpec.describe 'Users API', type: :request do
     end
   end
 
-  describe 'PUT /users/:id' do
+  describe 'PUT /auth' do
     before do
-      put "/users/#{user_id}", params: { user: user_params }.to_json, headers: headers
+      put "/auth", params: user_params.to_json, headers: headers
     end
 
     context 'When the params are valid' do
@@ -83,7 +92,7 @@ RSpec.describe 'Users API', type: :request do
       end
 
       it 'returns correct json for the updated user' do
-        expect(json_body[:data][:attributes][:email]).to eq(user_params[:email])
+        expect(json_body[:data][:email]).to eq(user_params[:email])
       end
     end
 
@@ -100,19 +109,19 @@ RSpec.describe 'Users API', type: :request do
     end
   end
 
-  describe 'DELETE /users/:id' do
+  describe 'DELETE /auth' do
     before do
-      delete "/users/#{user_id}", params: {}, headers: headers
+      delete "/auth", params: {}, headers: headers
     end
 
     context 'When the user exists' do
       it 'Deleted the user' do
-        expect( User.find_by(id: user_id) ).to(be_nil)
-        expect { User.find user_id }.to raise_error(ActiveRecord::RecordNotFound)
+        expect( User.find_by(id: user.id) ).to(be_nil)
+        expect { User.find user.id }.to raise_error(ActiveRecord::RecordNotFound)
       end
       
       it 'Returns status 204' do
-        expect(response).to have_http_status(204)
+        expect(response).to have_http_status(200)
       end
     end
   end
